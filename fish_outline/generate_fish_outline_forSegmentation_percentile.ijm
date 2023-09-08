@@ -44,12 +44,12 @@ for (i = 0; i < 7; i++) {
 	nBelowThreshold = nPixels * percentage / 100;
 	
 	sum = 0; 
-	for (i = 0; i<stackHisto.length; i++) { 
-	  sum = sum + stackHisto[i]; 
+	for (iter = 0; iter<stackHisto.length; iter++) { 
+	  sum = sum + stackHisto[iter]; 
 	  if (sum >= nBelowThreshold) { 
-	    setThreshold(i, 65535); 
-	    print(i + "-" + "65535: "  +sum/nPixels*100+"%"); 
-	    i = 99999999;//break 
+	    setThreshold(iter, 65535); 
+	    print(iter + "-" + "65535: "  +sum/nPixels*100+"%"); 
+	    iter = 99999999;//break 
 	  } 
 	} 
 	print("threshold applied");
