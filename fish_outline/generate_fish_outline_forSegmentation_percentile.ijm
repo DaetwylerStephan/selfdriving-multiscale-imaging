@@ -17,8 +17,8 @@ savefolder_max= "Z:/Fiolka/LabMembers/Stephan/multiscale_data/xenograft_experime
 File.makeDirectory(savefolder);
 File.makeDirectory(savefolder_max);
 
-for (i = 0; i < 7; i++) {
- 	currentfilename = parentfolder + File.separator + "t" + IJ.pad(i, 5) + File.separator + imagename;
+for (i_time = 0; i_time < 7; i_time++) {
+ 	currentfilename = parentfolder + File.separator + "t" + IJ.pad(i_time, 5) + File.separator + imagename;
  	print(currentfilename);
  	
  	//open file
@@ -37,8 +37,8 @@ for (i = 0; i < 7; i++) {
 	for ( j=1; j<=nSlices; j++ ) {
 	    setSlice( j );
 	    getHistogram(values, counts, 65536);
-	    for ( i=0; i<65536; i++ )
-	       stackHisto[i] += counts[i];
+	    for ( i_stack=0; i_stack<65536; i_stack++ )
+	       stackHisto[i_stack] += counts[i_stack];
 	}	
 	nPixels= getWidth() * getHeight() * nSlices;
 	nBelowThreshold = nPixels * percentage / 100;
@@ -69,10 +69,10 @@ for (i = 0; i < 7; i++) {
  	run("Invert LUT");
  	run("Fill Holes", "stack");
  	
- 	saveAs("Tiff",savefolder + File.separator + "fishvolume_t" + IJ.pad(i,5) + ".tif");
+ 	saveAs("Tiff",savefolder + File.separator + "fishvolume_t" + IJ.pad(i_time,5) + ".tif");
  	
  	//make max projection for quick check
  	run("Z Project...", "projection=[Max Intensity]");
- 	saveAs("Tiff",savefolder_max + File.separator + "fishvolume_t" + IJ.pad(i,5) + ".tif");
+ 	saveAs("Tiff",savefolder_max + File.separator + "fishvolume_t" + IJ.pad(i_time,5) + ".tif");
  	close("*");
 }
