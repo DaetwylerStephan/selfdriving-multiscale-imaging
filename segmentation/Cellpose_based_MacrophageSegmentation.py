@@ -182,12 +182,10 @@ def generate_binaryimage(im_deconvolved):
 
     im_binary = skmorph.remove_small_objects(im_binary, min_size=1000, connectivity=2)
 
-    # hm seems we still need to grab the higher frequency signals?
     comb = np.maximum(im_binary * 1, (dog - dog.mean()) / (4 * np.std(dog)))
     im_binary = comb >= 1
     im_binary = skmorph.binary_closing(im_binary, skmorph.ball(1))
     im_binary = ndimage.binary_fill_holes(im_binary)
-    # im_binary = skmorph.binary_erosion(im_binary, skmorph.ball(1))  # why is 2 worse?
 
     # plt.figure()
     # plt.imshow(im_binary[20])
@@ -304,36 +302,41 @@ def merge_masks(mask_xy, mask_xz, mask_yz, im_binary):
 
     return labels_gradients
 
- def register_stack(self, imagestack, applymedian=0):
-                """
-                Register the stack to account for sample drift that occurs
-                :param imagestack: stack to register
-                :param applymedian: apply value to zero elements if non zero
-                :return: registered stack
-                """
 
-                #calculate median value
-                if applymedian==0:
-                    applymedian = np.median(imagestack[0,:,:])
+def register_stack(imagestack, applymedian=0, reference_flag='mean'):
+    """
+    Register the stack to account for sample drift that occurs
+    :param imagestack: stack to register
+    :param applymedian: apply value to zero elements if non zero
+    :param reference_flag: how should stackreg register stack
+    :return: registered stack
+    """
 
-                # register each frame to the previous (already registered) one
-                # this is what the original StackReg ImageJ plugin uses
-                sr = StackReg(StackReg.TRANSLATION)
-                out_previous = sr.register_transform_stack(imagestack, reference='previous')
+    # calculate median value
+    if applymedian == 0:
+        applymedian = np.median(imagestack[0, :, :])
 
-                #replace zero elements with median
+    print("calculated median: " + str(applymedian))
 
-                # Assign the median to the zero elements
-                out_previous[out_previous == 0] = applymedian
+    # register each frame to the previous (already registered) one
+    # this is what the original StackReg ImageJ plugin uses
+    sr = StackReg(StackReg.TRANSLATION)
+    out_previous = sr.register_transform_stack(imagestack, reference=reference_flag)
 
-                return out_previous
+    print("stack registered: " + str(out_previous.shape))
+
+    # Assign the median to the zero elements
+    out_previous[out_previous == 0] = applymedian
+
+    return out_previous
+
 
 if __name__ == "__main__":
     # =============================================================================
     # initializations
     # =============================================================================
     """parameters"""
-    lateral_axialratio = 2.56 #for (down-)sampling image to isotropic voxels, e.g. 3.42 for axial spacing of 0.4 um and 0.117 nm lateral
+    lateral_axialratio = 3.42 #for (down-)sampling image to isotropic voxels, e.g. 3.42 for axial spacing of 0.4 um and 0.117 nm lateral; or 2.56 for 0.3
     debug = 0
     region = "high_stack_001"
     alignstackbefore = 1 #do you want to align/register stack before segmentation? (use pystackreg)
