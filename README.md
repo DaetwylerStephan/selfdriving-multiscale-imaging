@@ -1,4 +1,4 @@
-# multiscale_data_analysis
+# self-driving, multi-scale imaging
 This repository contains the tools to process and analyse the multiscale data.
 
 
