@@ -3,20 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 """
-TODO: One way or another, make it harder to forget the daq.close()
-method, which can cause crazy voltages to persist. _del_? _enter_ and
-_exit_? Try to do it better than we are.
-Requires nicaiu.dll to be in the same directory, or located in the
-os.environ['PATH'] search path.
-If you get an error, google for NIDAQmx.h to decypher it.
+NI board class adapted from https://github.com/AndrewGYork/tools/blob/master/ni.p
+by Thayer and York
 """
 api = C.cdll.LoadLibrary("nicaiu")
 
-
-#todo- rewrite this so that you can specify in constants
-#digital/analog, channel number, minVol, maxVol, name of channel, constant voltage or play
-
-#todo - include a tool to make a single voltage output and not only the play voltage functionality
 
 class Analog_Out:
     def __init__(
@@ -66,14 +57,7 @@ class Analog_Out:
         if self.verbose: print("Opening %s-out board..."%self.channel_type)
         self.task_handle = C.c_void_p(0)
         api.create_task(bytes(), self.task_handle)
-        # If I were a real man, I would automatically detect the proper
-        # board name somehow
-    # (http://digital.ni.com/public.nsf/allkb/86256F0E001DA9FF492572A5006FD7D3)
-    # instead of demanding user input via the 'init' argument. If
-        # this next api call crashes for you, check the name of your
-        # analog-out card using NI Measurement and Automation Explorer
-        # (NI MAX):
-
+        
         if self.channel_type == 'analog':
             device_name2 = bytes(line, 'ascii')
             api.create_ao_voltage_channel(
