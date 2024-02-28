@@ -1,4 +1,4 @@
-# self-driving, multi-scale imaging
+# Self-driving, multi-scale imaging
 This repository contains the tools to process and analyse the multiscale data.
 
 ### Curvature analysis
