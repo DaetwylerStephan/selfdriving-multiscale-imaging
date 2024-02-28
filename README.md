@@ -1,18 +1,22 @@
 # self-driving, multi-scale imaging
 This repository contains the tools to process and analyse the multiscale data.
 
+### Curvature analysis
+Contains code to determine the curvature of macrophages from the high-resolution data.
 
+### Hopkins lowres analysis
+Contains code to calculate the Hopkins statistics based on the low-resolution data.
 
-### morphological_feature_analysis
-Contains code to run the morphological feature analysis in MATLAB of the high-resolution macrophages.
+### Morphological feature analysis
+Contains code to run the morphological feature analysis of the high-resolution macrophages.
 
-### multiScale_hardware_control
+### Multi-scale hardware control
 Contains code to run a self-driving, multi-scale light-sheet microscope, including the context_driven_env.yml environment file.
 
-### Segmentation-highres
+### Segmentation highres
 Contains code to run our high-resolution macrophage segmentation pipeline using connected component labeling and a Cellpose-based 3D segmentation pipeline. The environmen is available as .yml file.
 
-### Segmentation_lowres
+### Segmentation lowres
 Contains code to run our low-resolution macrophage segmentation pipeline based on CLIJ, including a .yml environment file. 
 
 ### Stitching
