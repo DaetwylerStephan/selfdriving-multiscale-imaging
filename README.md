@@ -1,5 +1,5 @@
 # Self-driving, multi-scale imaging
-This repository contains the tools to process and analyse the multiscale data.
+This repository contains the software to run a self-driving, multi-scale microscope and tools to process and analyse the resulting data.
 
 ### Curvature analysis
 Contains code to determine the curvature of macrophages from the high-resolution data.
